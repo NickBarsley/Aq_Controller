@@ -38,13 +38,16 @@ GPIO.setup(25, GPIO.IN)
 # Feed button sensor
 GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+# Motor controls
 GPIO.setup(05, GPIO.OUT)				# Output to control the RETURN PUMP
 GPIO.setup(06, GPIO.OUT)				# Output to control the MP10 PUMP 
 GPIO.setup(12, GPIO.OUT)				# Output to control the DISPLAY PUMP
+
 #GPIO.setup(X, GPIO.OUT)				# Output to control the SKIMMER
 #GPIO.setup(X, GPIO.OUT)				# Output to control the AUTO TOP OFF in the event of a power interupt
 
-# GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_UP)		# pin set up for the pair of float sensors in the skimmer overflow chamber
+# pin set up for the pair of float sensors in the skimmer overflow chamber
+GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_UP)		
 
 
 # Set 1 input for the 'Open Door' push button
@@ -99,7 +102,7 @@ while True:
 	sensor_leak_2 = GPIO.input(24)
 	sensor_leak_3 = GPIO.input(23)
 	sensor_feeding = GPIO.input(26)
-	#sensor_skimmer_tank_too_high = GPIO.input(X)
+	sensor_skimmate_tank_full = GPIO.input(21)
 	
 	# Analyse signals for disrepancy (again varying frequency of doing this)
 	if state_leak == False:
@@ -112,6 +115,10 @@ while True:
 		timer_feeding = 0
 		state_has_changed = True
 		state_leak = False
+		
+	if sensor_skimmate_tank_full==0:
+		state_skimmate_tank_full = True
+		screen_message = "Skimmer full!"
 		
 	
 	if state_feeding == True:		# Feeding mode is on
@@ -140,7 +147,7 @@ while True:
 			GPIO.output(05,False)		# Return pump ON
 			time.sleep(0.3)
 			GPIO.output(06,False)		# MP10 ON
-			time.sleep(0.3)			
+			time.sleep(300)			
 			GPIO.output(12,False)		# Display pump 2 ON
 			time.sleep(0.3)
 		state_has_changed = False
