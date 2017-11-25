@@ -27,6 +27,7 @@ import Adafruit_CharLCD as LCD
 # Set up LCD screen library
 lcd = LCD.Adafruit_CharLCDPlate()
 lcd.clear()
+screen_message_old = ""
 
 # Plus anything to do with the five keys on the LCD screen?
 GPIO.setmode(GPIO.BCM)
@@ -164,10 +165,11 @@ while True:
 	if (time_now.hour >= 21) or (time_now.hour < 7):
 		lcd.set_backlight(0)
 	else:
-		# Reporting
-		lcd.clear()
-		lcd.set_backlight(1)
-		lcd.message(screen_message)
+		if screen_message <> screen_message_old:
+			lcd.clear()
+			lcd.set_backlight(1)
+			lcd.message(screen_message)
+			screen_message_old = screen_message
 	
 	time.sleep(0.3)
 	
