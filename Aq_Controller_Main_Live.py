@@ -130,7 +130,6 @@ while True:
 			state_feeding = False
 			state_has_changed = True
 			timer_feeding = 0
-
 			
 	# Implement controller rules as required
 
@@ -143,8 +142,7 @@ while True:
 			time.sleep(0.3)
 			GPIO.output(12,True)		# Display pump 2 OFF
 			time.sleep(0.3)
-			GPIO.output(13,True)		# skimmer off test
-	
+				
 		if state_feeding == False:
 			GPIO.output(05,False)		# Return pump ON
 			time.sleep(0.3)
