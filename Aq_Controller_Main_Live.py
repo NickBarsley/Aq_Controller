@@ -43,9 +43,9 @@ GPIO.setup(26, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(05, GPIO.OUT)				# Output to control the RETURN PUMP
 GPIO.setup(06, GPIO.OUT)				# Output to control the MP10 PUMP 
 GPIO.setup(12, GPIO.OUT)				# Output to control the DISPLAY PUMP
+GPIO.setup(13, GPIO.OUT)				# Output to control the SKIMMER
 
-#GPIO.setup(X, GPIO.OUT)				# Output to control the SKIMMER
-#GPIO.setup(X, GPIO.OUT)				# Output to control the AUTO TOP OFF in the event of a power interupt
+#GPIO.setup(X, GPIO.OUT)				# Output to control the MP40 PUMP
 
 # pin set up for the pair of float sensors in the skimmer overflow chamber
 GPIO.setup(21, GPIO.IN, pull_up_down=GPIO.PUD_UP)		
@@ -120,7 +120,7 @@ while True:
 	if sensor_skimmate_tank_full==0:
 		state_skimmate_tank_full = True
 		screen_message = "Skimmer full!"
-		
+		GPIO.output(13,True)		# SKIMMER pump OFF
 	
 	if state_feeding == True:		# Feeding mode is on
 		if timer_feeding < duration_feeding:					
@@ -143,6 +143,7 @@ while True:
 			time.sleep(0.3)
 			GPIO.output(12,True)		# Display pump 2 OFF
 			time.sleep(0.3)
+			GPIO.output(13,True)		# skimmer off test
 	
 		if state_feeding == False:
 			GPIO.output(05,False)		# Return pump ON
